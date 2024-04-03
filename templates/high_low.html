@@ -1,0 +1,90 @@
+{% extends 'dependency.html' %}
+{% block content %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>High/Low</title>
+    <style>
+        @import url('https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.1/css/bootstrap.min.css');
+        html,
+        body {
+            height: 100%
+        }
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            appearance: none;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+<div class="h-100 d-flex align-items-center justify-content-center">
+    <div>
+        <h4 id="message">{{ message }}</h4>
+        <div class="h-100 d-inline-block align-items-center justify-content-center" style="min-width: 400px">
+            <div class="container" style="border: 1px solid grey; border-radius: 5px; padding: 10px">
+                <h3 style="text-align: center" id="value">{{ value }}</h3>
+            </div>
+            <div style="display: inline-block;margin-top: 10px; white-space: nowrap; min-width: 100%">
+                <button id="lower" type="button" style="min-width: 50%" class="btn btn-warning">0 - 949999</button>
+                <button id="higher" type="button" style="min-width: 50%" class="btn btn-warning">50000 - 999999</button>
+            </div>
+                    <div style="margin-top: 10px"> Вероятность
+            <input id="ratio" style="text-align: center" type="number" min="1" max="100" oninput="validity.valid||(value='');" value="95">
+        </div>
+        </div>
+{#        <h1 style="color: darkred; font-weight: bold; font-size: 50px">Test</h1>#}
+{#        <p class="lead">Test2</p>#}
+    </div>
+</div>
+</body>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#lower').click(function() {
+            likeButton("lower");
+        });
+
+        $('#higher').click(function() {
+            likeButton("higher");
+        });
+
+        $('#ratio').on('input', function() {
+            updateMinMaxValues();
+        });
+
+    });
+
+    function likeButton(action) {
+        var ratio = document.getElementById("ratio").value;
+
+        $.ajax({
+            type: 'GET',
+            url: '/bet',
+            data: {
+                action: action,
+                ratio: ratio
+            },
+            success: function(response) {
+                $('#value').text(response.value);
+                $('#likeCount').text(response.likes);
+                $('#message').text(response.message);
+            },
+            error: function(xhr, status, error) {
+                console.error('Error:', error);
+            }
+        });
+    }
+
+    function updateMinMaxValues() {
+        var ratio = document.getElementById("ratio").value;
+        var max_value = Math.round(999999 * (ratio/100))
+        var min_value = Math.round((999999 * (1 - ratio / 100)));
+
+        $('#lower').text('0 - ' + max_value);
+        $('#higher').text(min_value + ' - 999999');
+    }
+</script>
+</html>
+{% endblock content %}
