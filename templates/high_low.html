@@ -21,7 +21,7 @@
 <body>
 <div class="h-100 d-flex align-items-center justify-content-center">
     <div>
-        <h4 id="message">{{ message }}</h4>
+            <p class="message" id="message"></p>
         <div class="h-100 d-inline-block align-items-center justify-content-center" style="min-width: 400px">
             <div class="container" style="border: 1px solid grey; border-radius: 5px; padding: 10px">
                 <h3 style="text-align: center" id="value">{{ value }}</h3>
@@ -40,51 +40,6 @@
 </div>
 </body>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-    $(document).ready(function() {
-        $('#lower').click(function() {
-            likeButton("lower");
-        });
-
-        $('#higher').click(function() {
-            likeButton("higher");
-        });
-
-        $('#ratio').on('input', function() {
-            updateMinMaxValues();
-        });
-
-    });
-
-    function likeButton(action) {
-        var ratio = document.getElementById("ratio").value;
-
-        $.ajax({
-            type: 'GET',
-            url: '/bet',
-            data: {
-                action: action,
-                ratio: ratio
-            },
-            success: function(response) {
-                $('#value').text(response.value);
-                $('#likeCount').text(response.likes);
-                $('#message').text(response.message);
-            },
-            error: function(xhr, status, error) {
-                console.error('Error:', error);
-            }
-        });
-    }
-
-    function updateMinMaxValues() {
-        var ratio = document.getElementById("ratio").value;
-        var max_value = Math.round(999999 * (ratio/100))
-        var min_value = Math.round((999999 * (1 - ratio / 100)));
-
-        $('#lower').text('0 - ' + max_value);
-        $('#higher').text(min_value + ' - 999999');
-    }
-</script>
+<script src="/static/js/dice.js"></script>
 </html>
 {% endblock content %}

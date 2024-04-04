@@ -1,0 +1,46 @@
+.page {
+    padding: 4%;
+}
+.col-sm-6{
+	border: 1px solid transparent;
+	/*border-radius: 10px;*/
+	padding: 10px;
+	transition: border-color 0.2s ease;
+	text-align: center;
+}
+.col-sm-6:hover {
+	border-color: lightgray;
+}
+.thumbnail-light-media:hover img {
+    filter: brightness(80%);
+	transition: filter 0.4s ease;
+}
+
+
+.game-link {
+	color: cornflowerblue;
+}
+
+.game-link:hover {
+	color: cadetblue;
+	text-decoration: none;
+}
+
+.message {
+	border: 1px solid;
+	border-radius: 5px;
+	padding: 10px;
+	color: white;
+	font-family: "Fira Code";
+	font-size: 17px;
+}
+
+.win-message {
+	border-color: #96dd93;
+	background: #96dd93;
+}
+
+.lost-message{
+	border-color: #e37875;
+	background: #e37875;
+}

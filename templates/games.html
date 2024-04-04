@@ -1,0 +1,27 @@
+{% extends 'dependency.html' %}
+{% block content %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Игры</title>
+</head>
+<body>
+<div class="page">
+<h4>Games</h4>
+<div class="row row-lg-50 row-35 offset-top-2">
+              {% for game in games_data %}
+              <div class="col-sm-6 col-lg-2 wow-outer">
+              <article class="thumbnail-light wow slideInLeft"><a class="thumbnail-light-media" href="/games/{{ game.link }}">
+                  <img src="/static/thumbnail.jpg" alt="" style="width: 270px; height: 200px; object-fit: cover;"/></a>
+                <h5 style="margin-top: 5px"><a class="game-link" href="/games/{{ game.link }}">{{ game.name }}</a></h5>
+                <ul class="post-modern-meta">
+                </ul>
+                <p class="description">{{ game.description }}</p>
+              </article>
+            </div>
+              {% endfor %}
+          </div>
+</div>
+</body>
+</html>
+{% endblock content %}

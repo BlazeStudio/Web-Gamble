@@ -6,6 +6,7 @@ from app import views
 
 urlpatterns = [
     path('', views.index),
-    path('high_low', views.high_low),
+    path('games', views.games),
+    path('games/high_low', views.high_low),
     path('bet', views.bet)
 ]
