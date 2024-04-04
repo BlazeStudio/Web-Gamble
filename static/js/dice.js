@@ -15,13 +15,15 @@ $(document).ready(function() {
 
     function likeButton(action) {
         var ratio = document.getElementById("ratio").value;
+        var bet = document.getElementById("bet").value;
 
         $.ajax({
             type: 'GET',
             url: '/bet',
             data: {
                 action: action,
-                ratio: ratio
+                ratio: ratio,
+                bet: bet
             },
             success: function(response) {
                 $('#value').text(response.value);
