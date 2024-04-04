@@ -22,14 +22,15 @@
 <div class="h-100 d-flex align-items-center justify-content-center">
     <div>
             <div class="price">
+             <p>Баланс: <span id="balance">1000</span></p>
         <label>Сумма
-            <input id="bet" type="number" min="1" value="1">
+            <input id="bet" type="number" min="1" max="99999999" value="1">
         </label>
     </div>
-            <p class="message" id="message"></p>
+            <p class="message" id="message" style="display: none"></p>
         <div class="h-100 d-inline-block align-items-center justify-content-center" style="min-width: 400px">
             <div class="container" style="border: 1px solid grey; border-radius: 5px; padding: 10px">
-                <h3 style="text-align: center" id="value">{{ value }}</h3>
+                <h3 style="text-align: center" id="value">1.05 ₽</h3>
             </div>
             <div style="display: inline-block;margin-top: 10px; white-space: nowrap; min-width: 100%">
                 <button id="lower" type="button" style="min-width: 50%" class="btn btn-warning">0 - 949999</button>

@@ -25,23 +25,29 @@ def high_low(request, value = 0):
 
 
 def bet(request):
+    bet = (request.GET.get('bet'))
+    message = {}
+    if bet == "": return JsonResponse({'message': message})
+    bet = Decimal(bet)
+    balance = Decimal(request.GET.get('balance'))
+    if balance < bet:
+        message['type'] = 'error'
+        message['text'] = 'Не хватает средств'
+        return JsonResponse({'message': message})
     action = request.GET.get('action')
     ratio = Decimal(request.GET.get('ratio'))
-    bet = Decimal(request.GET.get('bet'))
-    print(bet)
-    win = (bet * (1 - ratio / 100)).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
-    print(1 - ratio / 100)
     max_value = round(999999 * (ratio/100))
     min_value = round((999999 * (1 - ratio / 100)))
     value = random.randint(0, 999999)
-    message = {}
     if ((action == 'higher') and (value >= min_value)) or ((action == 'lower') and (value <= max_value)):
         message['type'] = 'success'
-        message['text'] = 'Поздравляем! Вы выиграли!'
-        # win = round((bet * (1 - ratio / 100)), 2)
-        print("Вы выиграли - ", bet + win)
+        message['text'] = f'Поздравляем! Выпало {value}'
+        win = (bet / (ratio / 100)).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP) - bet
+        print(win)
+        balance += win
     else:
         message['type'] = 'error'
-        message['text'] = 'Вы проиграли. Повезёт в следующий раз.'
+        message['text'] = f'Вы проиграли. Выпало {value}'
+        balance -= bet
         # messages.error(request, "Loser!")
-    return JsonResponse({'value': value, 'message': message})
+    return JsonResponse({'message': message, 'balance': balance})
