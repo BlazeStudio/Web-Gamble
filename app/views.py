@@ -55,19 +55,27 @@ def bet(request):
 
 
 #Mines
-matrix = None
+matrix = [['*' for _ in range(5)] for _ in range(5)]
 def mines(request):
     global matrix
-    matrix = [['!' for _ in range(5)] for _ in range(5)]
-    # Выбираем три случайных ячейки для заполнения крестиками
-    #TODO - проверка на уникальность
-    for _ in range(3):
-        row = random.randint(0, 4)
-        col = random.randint(0, 4)
-        matrix[row][col] = 'x'
-        print('x', row, col)
-    print(matrix)
     return render(request, 'mines.html', {'matrix': matrix})
+
+def start_game(request):
+    global matrix
+    matrix = [['!' for _ in range(5)] for _ in range(5)]
+    matrix = generate_mines(matrix, 3)
+    return JsonResponse({'matrix': matrix})
+
+def generate_mines(matrix, num_mines):
+    rows, cols = len(matrix), len(matrix[0])
+    mines_placed = 0
+    while mines_placed < num_mines:
+        row = random.randint(0, rows - 1)
+        col = random.randint(0, cols - 1)
+        if matrix[row][col] != 'x':
+            matrix[row][col] = 'x'
+            mines_placed += 1
+    return matrix
 
 def get_cell_content(request):
     global matrix

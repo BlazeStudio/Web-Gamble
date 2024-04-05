@@ -8,7 +8,7 @@
         <div class="toast-container">
             {% for message in messages %}
   <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="5000">
-      <div class="toast-{% if message.tags == 'success' %}success{% elif message.tags == 'warning' %}warning{% else %}error{% endif %}">
+      <div class="toast-{% if message.tgs == 'success' %}success{% elif message.tags == 'warning' %}warning{% else %}error{% endif %}">
     <div class="toast-header">
       <strong class="mr-auto">Уведомление</strong>
       <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">

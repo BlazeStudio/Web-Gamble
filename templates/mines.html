@@ -1,4 +1,5 @@
-<!DOCTYPE html>
+{% extends 'dependency.html' %}
+{% block content %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -34,7 +35,8 @@
         <p>Мины: <span id="balance">3</span></p>
         <label>Сумма
             <input id="bet" type="number" min="1" max="99999999" value="1">
-        </label>
+        </label><br>
+    <button class="button btn-primary" id="start_btn" onclick="startGame()">Начать игру</button>
         <table style="margin-top: 10px">
             <tbody>
             {% for row in matrix %}
@@ -50,36 +52,70 @@
     </div>
 </div>
 <script>
-    var revealedAll = false;
-    function reveal(cell) {
-        var rowIndex = cell.parentNode.rowIndex;
-        var cellIndex = cell.cellIndex;
-        fetch(`/get_cell_content?row=${rowIndex}&col=${cellIndex}`)
-        .then(response => response.text())
-        .then(data => {
-            if (data === '!') {
-                cell.innerText = data;
-            } else {
-                if (!revealedAll) {
-                revealAll();
-                revealedAll = true;}
-            }
-        });
-    }
+var gameStarted = false;
+var start_btn = document.getElementById('start_btn')
 
-    function revealAll() {
-        fetch('/reveal_all_cells')
-        .then(response => response.json())
-        .then(data => {
-            var table = document.querySelector('table');
-            for (var i = 0; i < data.length; i++) {
-                for (var j = 0; j < data[i].length; j++) {
-                    var cell = table.rows[i].cells[j];
-                    cell.innerText = data[i][j];
-                }
-            }
-        });
+function reveal(cell) {
+    if (!gameStarted) {
+        return;
     }
+    var rowIndex = cell.parentNode.rowIndex;
+    var cellIndex = cell.cellIndex;
+    fetch(`/get_cell_content?row=${rowIndex}&col=${cellIndex}`)
+    .then(response => response.text())
+    .then(data => {
+        if (data === '!') {
+            cell.innerText = data;
+        } else {
+            revealAll();
+        }
+    });
+}
+
+function startGame() {
+    gameStarted = true;
+    if (start_btn.textContent === "Забрать"){
+        gameStarted = false
+        start_btn.textContent = "Начать игру"
+    } else {
+    start_btn.textContent = "Забрать"
+    fetch('/start_game')
+    .then(response => response.json())
+    .then(data => {
+        matrix = data.matrix;
+        updateMatrix()
+    })
+        }
+}
+
+function updateMatrix() {
+    var table = document.querySelector('table');
+    table.querySelectorAll('td').forEach(cell => {
+        cell.innerText = "";
+    });
+}
+
+
+function revealAll() {
+    if (!gameStarted) {
+        return;
+    }
+    fetch('/reveal_all_cells')
+    .then(response => response.json())
+    .then(data => {
+        start_btn.textContent = "Начать игру"
+        var table = document.querySelector('table');
+        for (var i = 0; i < data.length; i++) {
+            for (var j = 0; j < data[i].length; j++) {
+                var cell = table.rows[i].cells[j];
+                cell.innerText = data[i][j];
+            }
+        }
+        gameStarted = false
+    });
+}
+
 </script>
 </body>
 </html>
+{% endblock content %}
