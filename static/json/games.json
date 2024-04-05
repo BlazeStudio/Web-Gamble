@@ -6,10 +6,10 @@
         "link": "high_low"
     },
     {
-        "name": "Большая рваная дыра",
-        "description": "Я ничего совсем не помню. Ничего!",
+        "name": "Mines",
+        "description": "Mines description",
         "image": "game2.jpg",
-        "link": "http://example.com/game2"
+        "link": "mines"
     },
     {
         "name": "Game 3",

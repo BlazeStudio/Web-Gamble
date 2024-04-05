@@ -5,8 +5,11 @@ from app import views
 
 
 urlpatterns = [
-    path('', views.index),
+    path('', views.home),
     path('games', views.games),
     path('games/high_low', views.high_low),
-    path('bet', views.bet)
+    path('bet', views.bet),
+    path('games/mines', views.mines),
+    path('get_cell_content', views.get_cell_content,),
+    # path('end_mines', views.end_mines)
 ]

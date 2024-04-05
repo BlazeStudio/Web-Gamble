@@ -44,3 +44,68 @@
 	border-color: #e37875;
 	background: #e37875;
 }
+
+
+/*TOAST*/
+.toast {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 300px;
+  background-color: #ffffff; /* Белый цвет фона */
+	border-radius: 4px;
+  color: black; /* Синий цвет текста */
+  z-index: 10000;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.toast.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.toast-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.toast-body {
+  margin-top: 10px;
+}
+.toast .close {
+  background-color: transparent;
+  border: none;
+  color: inherit;
+}
+
+.toast .close:hover {
+  color: black;
+}
+
+.toast .close span {
+  font-size: 20px;
+  opacity: 0.5; /* Прозрачность иконки */
+	  color: black;
+}
+
+/* Дополнительные стили для разных типов toast (например, успех, предупреждение, ошибка) */
+.toast-success{
+	border: 2px solid #42fe5a;
+  border-radius: inherit;
+  padding: 15px;
+}
+
+.toast-warning {
+	border: 2px solid #edf333;
+  border-radius: inherit;
+  padding: 15px;
+}
+
+.toast-error {
+	border: 2px solid #f23627;
+  border-radius: inherit;
+  padding: 15px;
+}

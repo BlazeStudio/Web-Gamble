@@ -5,12 +5,13 @@ import random
 from datetime import datetime
 
 from _decimal import Decimal, ROUND_HALF_UP
-from django.http import HttpResponse, JsonResponse
-from django.shortcuts import render
+from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
+from django.shortcuts import render, redirect
 from django.contrib import messages
 
 
-def index(request):
+
+def home(request):
     return render(request, 'home.html')
 
 def games(request):
@@ -20,14 +21,14 @@ def games(request):
 
 
 #DICE(HIGH/LOW)
-def high_low(request, value = 0):
-    return render(request, 'high_low.html', {'value': value})
+def high_low(request):
+    return render(request, 'high_low.html')
 
 
 def bet(request):
     bet = (request.GET.get('bet'))
     message = {}
-    if bet == "": return JsonResponse({'message': message})
+    if bet == "":return JsonResponse({'message': message})
     bet = Decimal(bet)
     balance = Decimal(request.GET.get('balance'))
     if balance < bet:
@@ -51,3 +52,35 @@ def bet(request):
         balance -= bet
         # messages.error(request, "Loser!")
     return JsonResponse({'message': message, 'balance': balance})
+
+
+#Mines
+matrix = None
+def mines(request):
+    global matrix
+    matrix = [['!' for _ in range(5)] for _ in range(5)]
+    # Выбираем три случайных ячейки для заполнения крестиками
+    #TODO - проверка на уникальность
+    for _ in range(3):
+        row = random.randint(0, 4)
+        col = random.randint(0, 4)
+        matrix[row][col] = 'x'
+        print('x', row, col)
+    print(matrix)
+    return render(request, 'mines.html', {'matrix': matrix})
+
+def get_cell_content(request):
+    global matrix
+    row = int(request.GET.get('row'))
+    col = int(request.GET.get('col'))
+    content = matrix[row][col]
+    # if (content == 'x'):
+    #     return HttpResponseRedirect('/end_mines')
+    return HttpResponse(content)
+
+# def end_mines(request):
+#     print("DEAD")
+#     return HttpResponse("Dead")
+
+
+
