@@ -11,5 +11,6 @@ urlpatterns = [
     path('bet', views.bet),
     path('games/mines', views.mines),
     path('get_cell_content', views.get_cell_content,),
+    path('reveal_all_cells', views.reveal_all_cells,),
     # path('end_mines', views.end_mines)
 ]

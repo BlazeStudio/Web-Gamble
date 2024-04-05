@@ -78,6 +78,11 @@ def get_cell_content(request):
     #     return HttpResponseRedirect('/end_mines')
     return HttpResponse(content)
 
+def reveal_all_cells(request):
+    global matrix
+    matrix_list = [[str(cell) for cell in row] for row in matrix]
+    return JsonResponse(matrix_list, safe=False)
+
 # def end_mines(request):
 #     print("DEAD")
 #     return HttpResponse("Dead")

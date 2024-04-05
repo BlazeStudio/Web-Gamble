@@ -68,16 +68,16 @@
     }
 
     function revealAll() {
-        var table = document.querySelector('table');
-        var cells = table.querySelectorAll('td');
-        cells.forEach(function(cell) {
-            var rowIndex = cell.parentNode.rowIndex;
-            var cellIndex = cell.cellIndex;
-            fetch(`/get_cell_content?row=${rowIndex}&col=${cellIndex}`)
-            .then(response => response.text())
-            .then(data => {
-                cell.innerText = data;
-            });
+        fetch('/reveal_all_cells')
+        .then(response => response.json())
+        .then(data => {
+            var table = document.querySelector('table');
+            for (var i = 0; i < data.length; i++) {
+                for (var j = 0; j < data[i].length; j++) {
+                    var cell = table.rows[i].cells[j];
+                    cell.innerText = data[i][j];
+                }
+            }
         });
     }
 </script>
